@@ -1,0 +1,11 @@
+<h1>Статистика</h1>
+
+<p><strong>Популярная игрушка:</strong> {{ top_toy.toy__name }} — {{ top_toy.total }} шт.</p>
+<p><strong>Наименее популярная игрушка:</strong> {{ bottom_toy.toy__name }} — {{ bottom_toy.total }} шт.</p>
+
+<h3>Продажи по видам:</h3>
+<ul>
+{% for item in sales_by_type %}
+  <li>{{ item.toy__toy_type__name }}: {{ item.total }} шт.</li>
+{% endfor %}
+</ul>

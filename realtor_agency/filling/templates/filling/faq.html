@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+    {% for qa in question_and_answers %}
+        <h3>{{qa.question}}</h3>
+        <p>{{qa.answer }}</p>
+        <i>{{qa.time}}</i>
+        <hr/>
+    {% endfor %}
+{% endblock %}

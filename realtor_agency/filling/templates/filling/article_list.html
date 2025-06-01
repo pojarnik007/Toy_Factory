@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+    {% for article in article_list %}
+        <h3><a href="{{ article.get_absolute_url }}">{{article.title}}</a></h3>
+        <p>{{article.description | truncatewords:5}}</p>
+        <hr/>
+    {% endfor %}
+{% endblock %}

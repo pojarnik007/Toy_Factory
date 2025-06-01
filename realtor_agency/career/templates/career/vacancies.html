@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+    {% for vacancy in vacancies %}
+        <div>
+            <h3>{{vacancy.title}}</h3>
+            <p>{{vacancy.description }}</p>
+            <hr/>
+        </div>
+    {% endfor %}
+{% endblock %}

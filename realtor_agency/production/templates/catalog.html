@@ -1,0 +1,7 @@
+<h1>Каталог игрушек</h1>
+{% for toy in toys %}
+  <div>
+    <h3>{{ toy.name }}</h3>
+    <p>Код: {{ toy.code }} | Вид: {{ toy.toy_type }} | Цена: {{ toy.price }}₽</p>
+  </div>
+{% endfor %}

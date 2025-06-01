@@ -1,0 +1,34 @@
+<!-- templates/statistics.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Статистика продаж</title>
+</head>
+<body>
+    <h1>Статистика продаж</h1>
+
+    <h2>График продаж по клиентам</h2>
+    <img src="data:image/png;base64,{{ client_plot }}" alt="Client Sales Chart">
+
+    <h2>Суммы сделок</h2>
+    <ul>
+        <li>Среднее: {{ stats.mean }}</li>
+        <li>Медиана: {{ stats.median }}</li>
+        <li>Мода: {{ stats.mode }}</li>
+    </ul>
+
+    <h2>Возраст клиентов</h2>
+    <ul>
+        <li>Средний возраст: {{ age_stats.mean }}</li>
+        <li>Медианный возраст: {{ age_stats.median }}</li>
+    </ul>
+
+    <h2>Популярные категории</h2>
+    <ul>
+        <li>Самый популярный тип объектов: {{ most_popular_type }}</li>
+        <li>Тип объектов с наибольшей прибылью: {{ most_profitable_type }}</li>
+    </ul>
+
+    <a href="{% url 'users:profile' %}">Вернуться</a>
+</body>
+</html>

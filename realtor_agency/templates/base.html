@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Фабрика игрушек{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7fb;
+        }
+
+        nav {
+            background-color: #004d7a;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #006fa6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #004d7a;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'filling:index' %}">Главная</a></li>
+            <li><a href="{% url 'filling:news' %}">Новости</a></li>
+            <li><a href="{% url 'filling:about' %}">О нас</a></li>
+            <li><a href="{% url 'filling:faq' %}">FAQ</a></li>
+            <li><a href="{% url 'promotions:promocodes' %}">Промокоды</a></li>
+            <li><a href="{% url 'contacts:contacts' %}">Команда</a></li>
+            <li><a href="{% url 'filling:conf_politic' %}">Политика</a></li>
+            <li><a href="{% url 'career:vacancies' %}">Вакансии</a></li>
+            <li><a href="{% url 'reviews:index' %}">Отзывы</a></li>
+            <li><a href="{% url 'filling:joke' %}">Шутка</a></li>
+            <li><a href="{% url 'filling:quote' %}">Цитата</a></li>
+            <li><a href="{% url 'users:profile' %}">Профиль</a></li>
+            <li><a href="{% url 'real_estate:catalog' %}">Каталог</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        <!-- Контент страницы -->
+        {% endblock %}
+    </div>
+
+</body>
+</html>

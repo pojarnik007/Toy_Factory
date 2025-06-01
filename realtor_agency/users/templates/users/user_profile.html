@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Профиль пользователя</h1>
+    <div>
+        <div>
+            <span>Логин:</span>
+            <span>{{ user.username }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Email:</span>
+            <span>{{ user.email }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Телефон:</span>
+            <span>{{ user.phone|default:"не указан" }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Дата рождения:</span>
+            <span>{{ user.date_of_birth|date:"d/m/Y" }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Возраст:</span>
+            <span>{{ user.age }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Должность:</span>
+            <span>{{ user.get_position_display }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Дата регистрации:</span>
+            <span>{{ user.hire_date|date:"d/m/Y" }}</span>
+        </div>
+        <div class="detail-item">
+            <span>Часовой пояс:</span>
+            <span>{{ user.timezone }}</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h2>Редактировать отзыв</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label>Заголовок</label>
+            <input type="text" name="title" value="{{ review.title }}" required>
+        </div>
+        <div>
+            <label>Текст отзыва</label>
+            <textarea name="text" rows="4" required>{{ review.text }}</textarea>
+        </div>
+        <div>
+            <label>Оценка</label>
+            <select name="rating" required>
+                {% for value, label in rating_choices %}
+                    <option value="{{ value }}" {% if value == review.rating %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

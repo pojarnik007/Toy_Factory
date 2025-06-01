@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+    <h1>Случайная тук-тук шутка</h1>
+    
+    {% if error %}
+        <div>{{ error }}</div>
+    {% else %}
+        <div>
+            <div>{{ setup }}</div>
+            <div>{{ punchline }}</div>
+        </div>
+    {% endif %}
+
+    <button onclick="window.location.reload()">Новая шутка</button>
+
+
+{% endblock %}

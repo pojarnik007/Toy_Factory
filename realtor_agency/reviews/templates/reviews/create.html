@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h2>Создать отзыв</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label>Заголовок</label>
+            <input type="text" name="title" required>
+        </div>
+        <div>
+            <label>Текст отзыва</label>
+            <textarea name="text" rows="4" required></textarea>
+        </div>
+        <div>
+            <label>Оценка</label>
+            <select name="rating" required>
+                {% for value, label in rating_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

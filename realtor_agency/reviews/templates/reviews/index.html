@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Отзывы</h1>
+    <a href="{% url 'reviews:create' %}">Новый отзыв</a>
+    
+    {% for review in reviews %}
+    <div>
+        <h5>{{ review.title }}</h5>
+        <p>{{ review.text }}</p>
+        <div>
+            <div>
+                Рейтинг: {{ review.rating }}/10 
+                <small>от {{ review.user.username }}</small>
+            </div>
+            {% if review.user == request.user %}
+                <div>
+                    <a href="{% url 'reviews:edit' review.id %}">Изменить</a>
+                    <a href="{% url 'reviews:delete' review.id %}">Удалить</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

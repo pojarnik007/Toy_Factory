@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<hr>
+    {% for prom in promocodes %}
+        {{prom.text}}
+        {{prom.state}}
+        <hr>
+    {% endfor %}
+{% endblock %}

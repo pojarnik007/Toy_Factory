@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+    {% for contact in contacts %}
+        <div>
+            <h3>{{contact.name}}</h3>
+            <p>{{contact.description }}</p>
+            <p>{{contact.user.email}}</p>
+            <img src="{{ contact.image.url }}" width="200"/>
+            <hr/>
+        </div>
+    {% endfor %}
+{% endblock %}
