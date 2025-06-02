@@ -36,45 +36,44 @@ def conf_politic(request):
     return render(request, 'filling/conf_politic.html')
 
 
-def knock_knock_joke(request):
-    url = "https://official-joke-api.appspot.com/jokes/knock-knock/random"
-    
+import requests
+from django.shortcuts import render
+
+def random_cat_fact(request):
+    url = "https://catfact.ninja/fact"
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()
-        joke_data = response.json()[0]
+        fact_data = response.json()
         context = {
-            'setup': joke_data['setup'],
-            'punchline': joke_data['punchline']
+            'setup': "Факт о кошках:",
+            'punchline': fact_data.get('fact', 'Нет данных.')
         }
     except Exception as e:
         context = {
-            'error': f"Не удалось загрузить шутку: {str(e)}"
+            'error': f"Не удалось загрузить факт: {str(e)}"
         }
-    
-    return render(request, 'filling/joke.html', context)
+    return render(request, 'filling/cta_fact.html', context)
 
+import requests
+from django.shortcuts import render
 
-def random_quote(request):
-    url = "https://favqs.com/api/qotd"
-    
+def random_dog_image(request):
+    url = "https://dog.ceo/api/breeds/image/random"
     try:
-        response = requests.get(url, timeout=5, 
-            headers={'Authorization': 'Authorization: Token token="15d75e69a9b659eab0cb45caeeb098ac"'})
-        
+        response = requests.get(url, timeout=5)
         response.raise_for_status()
         data = response.json()
-        quote_data = data['quote']
         context = {
-            'body': quote_data['body'],
-            'author': quote_data['author']
+            'setup': "Случайная собака дня:",
+            'punchline': "",  # картинка будет ниже
+            'dog_image': data.get('message')
         }
     except Exception as e:
         context = {
-            'error': f"Не удалось загрузить шутку: {str(e)}"
+            'error': f"Не удалось получить изображение собаки: {str(e)}"
         }
-    
-    return render(request, 'filling/quotes.html', context)
+    return render(request, 'filling/dog.html', context)
 
 
 def page_not_found(request, exception):

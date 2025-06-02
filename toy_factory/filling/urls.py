@@ -10,6 +10,6 @@ urlpatterns = [
     path('news/', article_list, name='news'),
     path('faq/', faq, name='faq'),
     path('conf_politic/', conf_politic, name='conf_politic'),
-    path('joke/', knock_knock_joke, name='joke'),
-    path('quote/', random_quote, name='quote')
+    path('catfact/', random_cat_fact, name='random_cat_fact'),
+    path('dog/', random_dog_image, name='random_dog_image'),
 ]

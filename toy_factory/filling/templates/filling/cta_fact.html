@@ -2,8 +2,8 @@
 
 {% block content%}
 
-    <h1>Случайная тук-тук шутка</h1>
-    
+    <h1>Случайный факт о кошках</h1>
+
     {% if error %}
         <div>{{ error }}</div>
     {% else %}
@@ -13,7 +13,6 @@
         </div>
     {% endif %}
 
-    <button onclick="window.location.reload()">Новая шутка</button>
-
+    <button onclick="window.location.reload()">Ещё факт</button>
 
 {% endblock %}

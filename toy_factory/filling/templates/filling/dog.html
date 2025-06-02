@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Случайная собака дня</h1>
+    {% if error %}
+        <div>{{ error }}</div>
+    {% else %}
+        <div>
+            <div>{{ setup }}</div>
+            {% if dog_image %}
+                <div><img src="{{ dog_image }}" alt="Собака" style="max-width:400px;"/></div>
+            {% endif %}
+            <div>{{ punchline }}</div>
+        </div>
+    {% endif %}
+    <button onclick="window.location.reload()">Показать другую собаку</button>
+{% endblock %}
