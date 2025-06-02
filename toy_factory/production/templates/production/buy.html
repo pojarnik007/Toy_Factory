@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="max-width: 500px; margin-top: 40px;">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0" style="font-size:1.4em;">Оформление заказа</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="quantity" class="form-label"><b>Количество:</b></label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="{{ toy.in_stock }}" value="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pickup_point" class="form-label"><b>Пункт выдачи:</b></label>
+                    <select class="form-select" id="pickup_point" name="pickup_point" required>
+                        {% for point in pickup_points %}
+                            <option value="{{ point.id }}">{{ point.address }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="promo_code" class="form-label"><b>Промокод (необязательно):</b></label>
+                    <input type="text" class="form-control" id="promo_code" name="promo_code" value="">
+                </div>
+                <button type="submit" class="btn btn-success w-100">Оформить заказ</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

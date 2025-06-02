@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h2>Редактирование профиля</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <div>
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div>
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div>
+                {{ form.phone.label_tag }}
+                {{ form.phone }}
+                <small>Формат: +375 (XX) XXX-XX-XX</small>
+                {{ form.phone.errors }}
+            </div>
+            <div>
+                {{ form.city.label_tag }}
+                {{ form.city }}
+                {{ form.city.errors }}
+            </div>
+            <div>
+                {{ form.timezone.label_tag }}
+                {{ form.timezone }}
+                {{ form.timezone.errors }}
+            </div>
+
+            <div>
+                {{ form.date_of_birth.label_tag }}
+                {{ form.date_of_birth }}
+                {{ form.date_of_birth.errors }}
+            </div>
+
+            <button type="submit">Сохранить</button>
+            <a href="{% url 'users:profile' %}">Отмена</a>
+        </form>
+    </div>
+{% endblock %}
