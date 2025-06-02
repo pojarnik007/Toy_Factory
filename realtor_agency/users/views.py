@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .models import User
 
-from real_estate.models import Sale
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProfileEditForm
 from django.views.generic import TemplateView
 import calendar
@@ -45,7 +44,7 @@ class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        
+
         timezone.activate(user.timezone if user.is_authenticated else 'UTC')
 
         today = timezone.localtime(timezone.now())
@@ -55,11 +54,15 @@ class ProfileView(TemplateView):
             today.month,
             withyear=True
         )
-        
+
         if user.is_authenticated:
             context['reviews'] = user.review_set.all().order_by('-time')
-            context['sales'] = Sale.objects.filter(client=user)
-        
+            # context['sales'] = Sale.objects.filter(client=user)
+            client = getattr(user, 'client', None)
+            if client:
+                context['orders'] = client.orders.all().order_by('-order_date')
+            else:
+                context['orders'] = []
         return context
     
 def user_profile(request, name):

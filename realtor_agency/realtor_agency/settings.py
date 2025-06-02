@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-88hka$)y5$5^p-g-=v$m@pg-%%kqn0bo=zt^m=7!q&nj6j&y7m'
+SECRET_KEY = 'django-insecure-secret-key-lol'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'real_estate',
     'users',
     'filling',
     'reviews',
@@ -161,3 +160,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 LOGOUT_REDIRECT_URL = 'users:profile'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

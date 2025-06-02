@@ -1,34 +1,212 @@
-<!-- templates/statistics.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Статистика продаж</title>
-</head>
-<body>
-    <h1>Статистика продаж</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">Статистика продаж</h1>
+    <div class="row">
 
-    <h2>График продаж по клиентам</h2>
-    <img src="data:image/png;base64,{{ client_plot }}" alt="Client Sales Chart">
+        <!-- Диаграмма продаж по клиентам -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <b>Сумма продаж по клиентам</b>
+                </div>
+                <div class="card-body text-center">
+                    {% if client_plot %}
+                        <img src="data:image/png;base64,{{ client_plot }}" class="img-fluid" alt="График продаж по клиентам">
+                    {% else %}
+                        <p>Нет данных для отображения.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-    <h2>Суммы сделок</h2>
-    <ul>
-        <li>Среднее: {{ stats.mean }}</li>
-        <li>Медиана: {{ stats.median }}</li>
-        <li>Мода: {{ stats.mode }}</li>
-    </ul>
+        <!-- Краткая статистика -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <b>Общая статистика сделок</b>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <b>Средняя сумма заказа:</b> {{ stats.mean }} ₽
+                        </li>
+                        <li class="list-group-item">
+                            <b>Медианная сумма заказа:</b> {{ stats.median }} ₽
+                        </li>
+                        <li class="list-group-item">
+                            <b>Самая частая сумма заказа:</b> {{ stats.mode }}
+                        </li>
+                        <li class="list-group-item">
+                            <b>Самый популярный тип игрушки:</b> {{ most_popular_type }}
+                        </li>
+                        <li class="list-group-item">
+                            <b>Самый прибыльный тип игрушки:</b> {{ most_profitable_type }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <h2>Возраст клиентов</h2>
-    <ul>
-        <li>Средний возраст: {{ age_stats.mean }}</li>
-        <li>Медианный возраст: {{ age_stats.median }}</li>
-    </ul>
+        <!-- Возраст клиентов -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-warning">
+                    <b>Возраст клиентов</b>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <b>Средний возраст:</b> {{ age_stats.mean }} лет
+                        </li>
+                        <li class="list-group-item">
+                            <b>Медианный возраст:</b> {{ age_stats.median }} лет
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <h2>Популярные категории</h2>
-    <ul>
-        <li>Самый популярный тип объектов: {{ most_popular_type }}</li>
-        <li>Тип объектов с наибольшей прибылью: {{ most_profitable_type }}</li>
-    </ul>
+        <!-- Прайс-лист -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <b>Прайс-лист по видам игрушек</b>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr><th>Вид</th><th>Средняя цена, ₽</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for row in price_list_by_type %}
+                                <tr>
+                                    <td>{{ row.name }}</td>
+                                    <td>{{ row.avg_price|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="2">Нет данных</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-    <a href="{% url 'users:profile' %}">Вернуться</a>
-</body>
-</html>
+        <!-- Список заказчиков по городам -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <b>Заказчики по городам</b>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th>Город</th><th>Клиенты</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for city, clients in clients_detailed_by_city.items %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ clients|join:", " }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="2">Нет данных</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Самая и наименее популярная игрушка -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <b>Игрушки по популярности</b>
+                </div>
+                <div class="card-body">
+                    <p><b>Самая популярная:</b> {{ most_popular_toy }}</p>
+                    <p><b>Не пользуется спросом:</b> {{ least_popular_toy }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ежемесячный объем продаж по видам -->
+        <div class="col-md-12 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-light">
+                    <b>Ежемесячный объем продаж по видам</b>
+                </div>
+                <div class="card-body">
+                    {% for tname, months in monthly_sales_by_type.items %}
+                        <b>{{ tname }}</b>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Год</th><th>Месяц</th><th>Сумма продаж (₽)</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for row in months %}
+                                    <tr>
+                                        <td>{{ row.year }}</td>
+                                        <td>{{ row.month }}</td>
+                                        <td>{{ row.total|floatformat:2 }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td colspan="3">Нет данных</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% empty %}
+                        <p>Нет данных</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Годовой отчет поступлений -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <b>Годовой отчет поступлений</b>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>Год</th><th>Поступления (₽)</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for row in yearly_income %}
+                                <tr>
+                                    <td>{{ row.year }}</td>
+                                    <td>{{ row.income|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="2">Нет данных</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Динамика и прогноз продаж -->
+        <div class="col-md-12 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <b>Динамика и прогноз продаж</b>
+                </div>
+                <div class="card-body text-center">
+                    {% if sales_trend_plot %}
+                        <img src="data:image/png;base64,{{ sales_trend_plot }}" class="img-fluid" alt="Тренд продаж">
+                    {% else %}
+                        <p>Недостаточно данных для построения графика</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

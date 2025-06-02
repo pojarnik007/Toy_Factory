@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load user_tags %}
+{% block content %}
+    <h1>Каталог игрушек</h1>
+
+    {% if user|is_admin or user|is_employee %}
+        <a href="{% url 'production:create' %}" class="btn btn-primary" style="margin-bottom:20px;">
+            + Добавить новую игрушку
+        </a>
+    {% endif %}
+    <form method="get">
+        <input type="text" name="q" placeholder="Поиск по названию или описанию" value="{{ search_query }}">
+        <select name="sort">
+            <option value="">Сортировать...</option>
+            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Цена ↑</option>
+            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Цена ↓</option>
+            <option value="name_asc" {% if request.GET.sort == 'name_asc' %}selected{% endif %}>Название А-Я</option>
+            <option value="name_desc" {% if request.GET.sort == 'name_desc' %}selected{% endif %}>Название Я-А</option>
+        </select>
+        <label>Вид игрушки:</label>
+        {% for type in all_types %}
+            <input type="checkbox" name="types" value="{{ type.id }}"
+                   {% if type.id|stringformat:"s" in selected_types %}checked{% endif %}>{{ type.name }}
+        {% endfor %}
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <hr>
+    {% for toy in toys %}
+        <div>
+            <h3><a href="{% url 'production:detail' toy.pk %}">{{ toy.name }}</a></h3>
+            <p>Код: {{ toy.code }} | Вид: {{ toy.toy_type }} | Цена: {{ toy.price }} ₽ | В
+                наличии: {{ toy.in_stock }}</p>
+            {% if toy.image %}
+                <img src="{{ toy.image.url }}" alt="{{ toy.name }}" style="max-width: 200px;">
+            {% endif %}
+            <p>{{ toy.description }}</p>
+            {% if user|is_client and toy.is_active and toy.in_stock > 0 %}
+                <a href="{% url 'production:buy' toy.pk %}" class="btn btn-primary">Купить</a>
+            {% elif toy.is_active and toy.in_stock > 0 %}
+                <p><em>Только для покупателей</em></p>
+            {% else %}
+                <p><em>Нет в наличии</em></p>
+            {% endif %}
+
+            {% if user|is_admin %}
+                <a href="{% url 'production:edit' toy.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'production:delete' toy.pk %}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Точно удалить игрушку?');">Удалить</a>
+            {% endif %}
+            <hr>
+        </div>
+        {% empty %}
+        <p>Игрушки не найдены</p>
+    {% endfor %}
+{% endblock %}

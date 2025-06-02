@@ -9,7 +9,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('filling/', include('filling.urls'), name='filling'),
     path('users/', include('users.urls'), name='users'),
-    path('real_estate/', include('real_estate.urls'), name='real_estate'),
     path('reviews/', include('reviews.urls'), name='reviews'),
     path('contacts/', include('contacts.urls'), name='contacts'),
     path('promotions/', include('promotions.urls'), name='promotions'),

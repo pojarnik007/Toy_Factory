@@ -18,6 +18,7 @@ def is_admin(user):
 
 @register.filter
 def is_client(user):
-    if not user.is_authenticated:
+    # Поддержка анонимного пользователя
+    if not hasattr(user, "position"):
         return False
-    return user.position == Position.CLIENT.value
+    return str(user.position) == "client"

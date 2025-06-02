@@ -1,10 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2>Промокоды</h2>
+{% if user.is_authenticated and user.position == "admin" %}
+    <a href="{% url 'promotions:promocode_add' %}" class="btn btn-success mb-3">Добавить промокод</a>
+{% endif %}
 <hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Промокод</th>
+            <th>Скидка (%)</th>
+            <th>Статус</th>
+            {% if user.is_authenticated and user.position == "admin" %}
+                <th>Действия</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
     {% for prom in promocodes %}
-        {{prom.text}}
-        {{prom.state}}
-        <hr>
+        <tr>
+            <td>{{ prom.text }}</td>
+            <td>{{ prom.discount_percent }}</td>
+            <td>{{ prom.get_state_display }}</td>
+            {% if user.is_authenticated and user.position == "admin" %}
+                <td>
+                    <form action="{% url 'promotions:promocode_delete' prom.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Удалить промокод?');">Удалить</button>
+                    </form>
+                </td>
+            {% endif %}
+        </tr>
     {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

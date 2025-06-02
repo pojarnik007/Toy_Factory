@@ -2,96 +2,90 @@
 {% load tz %}
 {% load user_tags %}
 
-
 {% block content %}
-<div>
-    {% if user.is_authenticated %}
-        <div>
-
-            {% if user|is_admin %}
-                <a href="{% url 'statistic:statistic' %}">Смотреть статистику</a>
-            {% endif %}
-
-            {% if user|is_employee or user|is_admin%}
-                <a href="{% url 'real_estate:sales' %}">Смотреть историю продаж</a>
-            {% endif %}
-            
+    <div>
+        {% if user.is_authenticated %}
             <div>
-                <h5>{{ user.username }}</h5>
-                <p>
-                    Имя: {{user.first_name|default:"не указано" }}<br>
-                    Фамилия: {{user.last_name|default:"не указана" }}<br>
-                    Email: {{ user.email|default:"не указан" }}<br>
-                    Телефон: {{ user.phone|default:"не указан" }}<br>
-                    Возраст: {{ user.age }} лет<br>
-                    Часовой пояс: {{ user.timezone }}
-                </p>
-                <a href="{% url 'users:edit_profile' %}">
-                    Редактировать
-                </a>
-            </div>
-
-
-              
-            <div>
-                <h5>Текущее время:</h5>
-                {% timezone user.timezone %}
-                    Сейчас: {% now "d/m/Y H:i" %}
-                {% endtimezone %}
-            </div>
-
-
-            <!-- Календарь -->
-            <div>
-                <h5>Календарь</h5>
-                {{ calendar|safe }}
-            </div>
-
-            {% if user|is_client %}
-            <div>
-                <h5>Отзывы</h5>
-                {% if not reviews %}
-                    нет
+                {% if user|is_admin %}
+                    <a href="{% url 'statistic:statistic' %}">Смотреть статистику</a>
                 {% endif %}
-                <ul>
-                    {% for review in reviews %}
-                    <li>
-                        {{ review.title }} - 
-                        <span title="Локальное время">
-                            {{ review.time|localtime|date:"d/m/Y H:i" }}
-                        </span>
-                        <span>
-                            ({{ review.time|date:"d/m/Y H:i" }} UTC)
-                        </span>
-                    </li>
-                    {% endfor %}
-                </ul>
 
-
-                <h5>Покупки</h5>
-                {% if not sales %}
-                    нет
+                {% if user|is_employee or user|is_admin %}
+                    <a href="{% url 'production:orders' %}">Смотреть историю заказов</a>
                 {% endif %}
-                <ul>
-                    {% for sale in sales %}
-                    <li>
-                        <a href="{% url 'real_estate:detail' sale.real_estate_object.slug %}">{{ sale }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-        </div>
 
-        <form action="{% url 'users:logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Выйти</button>
-        </form>
-    {% else %}
-        <p>Чтобы посмотреть профиль <a href="{% url 'users:login' %}">войдите</a> или 
-        <a href="{% url 'users:register' %}">зарегистрируйтесь</a></p>
-    {% endif %}
-</div>
+                <div>
+                    <h5>{{ user.username }}</h5>
+                    <p>
+                        Имя: {{ user.first_name|default:"не указано" }}<br>
+                        Фамилия: {{ user.last_name|default:"не указана" }}<br>
+                        Email: {{ user.email|default:"не указан" }}<br>
+                        Телефон: {{ user.phone|default:"не указан" }}<br>
+                        Возраст: {{ user.age }} лет<br>
+                        Часовой пояс: {{ user.timezone }}
+                    </p>
+                    <a href="{% url 'users:edit_profile' %}">
+                        Редактировать
+                    </a>
+                </div>
+
+                <div>
+                    <h5>Текущее время:</h5>
+                    {% timezone user.timezone %}
+                        Сейчас: {% now "d/m/Y H:i" %}
+                    {% endtimezone %}
+                </div>
+
+                <!-- Календарь -->
+                <div>
+                    <h5>Календарь</h5>
+                    {{ calendar|safe }}
+                </div>
+
+                {% if user|is_client %}
+                    <div>
+                        <h5>Отзывы</h5>
+                        {% if not reviews %}
+                            нет
+                        {% endif %}
+                        <ul>
+                            {% for review in reviews %}
+                                <li>
+                                    {{ review.title }} -
+                                    <span title="Локальное время">
+                                {{ review.time|localtime|date:"d/m/Y H:i" }}
+                            </span>
+                                    <span>
+                                ({{ review.time|date:"d/m/Y H:i" }} UTC)
+                            </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <h5>Покупки</h5>
+                        {% if orders %}
+                            <ul>
+                                {% for order in orders %}
+                                    <li>
+                                        {{ order.order_date|date:"d/m/Y H:i" }} — {{ order.toy.name }}
+                                        ({{ order.quantity }} шт.) — {{ order.status }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>Заказов нет</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <form action="{% url 'users:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Выйти</button>
+                </form>
+
+            </div>
+        {% else %}
+            <p>Чтобы посмотреть профиль <a href="{% url 'users:login' %}">войдите</a> или
+                <a href="{% url 'users:register' %}">зарегистрируйтесь</a></p>
+        {% endif %}
+    </div>
 {% endblock %}
-
-

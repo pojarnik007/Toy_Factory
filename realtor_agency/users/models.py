@@ -13,11 +13,11 @@ phone_validator = RegexValidator(
 )
 
 
-class Position(models.TextChoices):
-    ADMIN = 'admin', 'Admin'
-    CLIENT = 'client', 'Client'
-    EMPLOYEE = 'employee', 'Employee'
 
+class Position(models.TextChoices):
+    ADMIN = 'admin', 'Администратор'
+    CLIENT = 'client', 'Клиент'
+    EMPLOYEE = 'employee', 'Сотрудник'
 
 class User(AbstractUser):
     phone = models.CharField(
@@ -26,23 +26,12 @@ class User(AbstractUser):
         blank=True,
         help_text="+375 (ZZ) XXX-XX-XX",
         unique=True,
-        error_messages={
-            'unique': "Пользователь с таким номером уже существует."
-        }
+        error_messages={'unique': "Пользователь с таким номером уже существует."}
     )
-    date_of_birth = models.DateField(
-        blank=True,
-        null=True,
-        help_text="DD/MM/YYYY"
+    date_of_birth = models.DateField(blank=True, null=True, help_text="ДД/ММ/ГГГГ")
+    email = models.EmailField(verbose_name="Email", unique=True,
+        error_messages={'unique': "Пользователь с таким email уже существует."}
     )
-    email = models.EmailField(
-        verbose_name="Email",
-        unique=True,
-        error_messages={
-            'unique': "Пользователь с таким email уже существует."
-        }
-    )
-
     TIMEZONE_CHOICES = [(tz, tz) for tz in common_timezones]
     timezone = models.CharField(
         max_length=50,
@@ -50,6 +39,10 @@ class User(AbstractUser):
         default='UTC',
         verbose_name="Часовой пояс"
     )
+    position = models.CharField(
+        max_length=100, blank=True, choices=Position.choices, default=Position.CLIENT, verbose_name="Роль"
+    )
+    hire_date = models.DateField(blank=True, null=True, verbose_name="Дата найма")
 
     @property
     def age(self):
@@ -57,8 +50,7 @@ class User(AbstractUser):
             return 0
         today = date.today()
         return today.year - self.date_of_birth.year - (
-            (today.month, today.day) < 
-            (self.date_of_birth.month, self.date_of_birth.day)
+            (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
         )
 
     def clean(self):
