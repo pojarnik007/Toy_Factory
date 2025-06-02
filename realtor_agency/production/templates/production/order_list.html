@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Все заказы</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Клиент</th>
+        <th>Товар</th>
+        <th>Количество</th>
+        <th>Дата</th>
+        <th>Статус</th>
+        <th>Пункт выдачи</th>
+        <th>Действия</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.client }}</td>
+        <td>{{ order.toy.name }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.order_date|date:"d.m.Y H:i" }}</td>
+        <td>{{ order.get_status_display }}</td>
+        <td>{{ order.pickup_point }}</td>
+        <td>
+            <a href="{% url 'production:admin_order_confirm' order.id %}">Изменить статус</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,19 @@
+<h2>Подтверждение заказа</h2>
+<p>Товар: {{ toy.name }}</p>
+<p>Количество: {{ quantity }}</p>
+<p>Пункт выдачи: {{ pickup_point.address }}</p>
+<p>Сумма: {{ total_cost }} ₽</p>
+{% if promo %}
+    <p>Промокод: <b>{{ promo.text }}</b> (скидка {{ discount }}%)</p>
+    <p>Сумма скидки: {{ discount_amount|floatformat:2 }} ₽</p>
+    <p><b>Итого к оплате: {{ final_cost|floatformat:2 }} ₽</b></p>
+{% else %}
+    <p><b>Итого к оплате: {{ total_cost|floatformat:2 }} ₽</b></p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="quantity" value="{{ quantity }}">
+    <input type="hidden" name="pickup_point" value="{{ pickup_point.id }}">
+    <input type="hidden" name="promo_code" value="{{ promo_code_text }}">
+    <button type="submit" name="confirm">Подтвердить заказ</button>
+</form>

@@ -1,0 +1,17 @@
+<form method="post">
+    {% csrf_token %}
+    <label>Количество:</label>
+    <input type="number" name="quantity" min="1" max="{{ toy.in_stock }}" value="1" required>
+    <br>
+    <label>Пункт выдачи:</label>
+    <select name="pickup_point" required>
+        {% for point in pickup_points %}
+            <option value="{{ point.id }}">{{ point.address }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label>Промокод (необязательно):</label>
+    <input type="text" name="promo_code" value="">
+    <br>
+    <button type="submit">Оформить заказ</button>
+</form>
