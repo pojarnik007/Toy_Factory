@@ -1,27 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div>
-    <h2>Создать отзыв</h2>
+<link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+
+<main class="review-form-page">
+  <div class="review-form-card">
+    <h2 class="form-title">{% if review %}Редактировать отзыв{% else %}Создать отзыв{% endif %}</h2>
     <form method="post">
-        {% csrf_token %}
-        <div>
-            <label>Заголовок</label>
-            <input type="text" name="title" required>
-        </div>
-        <div>
-            <label>Текст отзыва</label>
-            <textarea name="text" rows="4" required></textarea>
-        </div>
-        <div>
-            <label>Оценка</label>
-            <select name="rating" required>
-                {% for value, label in rating_choices %}
-                <option value="{{ value }}">{{ label }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit">Сохранить</button>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="title">Заголовок</label>
+        <input type="text" id="title" name="title" value="{{ review.title|default:'' }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="text">Текст отзыва</label>
+        <textarea id="text" name="text" rows="4" required>{{ review.text|default:'' }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="rating">Оценка</label>
+        <select id="rating" name="rating" required>
+          {% for value, label in rating_choices %}
+            <option value="{{ value }}" {% if review and value == review.rating %}selected{% endif %}>
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button type="submit" class="btn primary submit-btn">
+        {% if review %}Сохранить изменения{% else %}Создать отзыв{% endif %}
+      </button>
     </form>
-</div>
+  </div>
+</main>
 {% endblock %}

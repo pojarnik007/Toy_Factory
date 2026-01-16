@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content%}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/vacancies.css' %}">
+<h1 class="vacancies-title">Вакансии</h1>
+
+{% if vacancies %}
+  <div class="vacancies-list">
     {% for vacancy in vacancies %}
-        <div>
-            <h3>{{vacancy.title}}</h3>
-            <p>{{vacancy.description }}</p>
-            <hr/>
+      <div class="vacancy-card">
+        <h3 class="vacancy-title">{{ vacancy.title }}</h3>
+        <p class="vacancy-description">{{ vacancy.description }}</p>
+
+        <div class="vacancy-footer">
+          <a href="{% url 'career:vacancy_detail' vacancy.id %}" class="btn primary">
+            Подробнее
+          </a>
+          <a href="{% url 'career:apply' vacancy.id %}" class="btn secondary">
+            Откликнуться
+          </a>
         </div>
+      </div>
     {% endfor %}
+  </div>
+{% else %}
+  <p class="no-vacancies">На данный момент вакансий нет 🚀</p>
+{% endif %}
 {% endblock %}

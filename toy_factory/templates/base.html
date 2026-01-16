@@ -1,91 +1,171 @@
 {% load static %}
 {% load user_tags %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Фабрика игрушек{% endblock %}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f6f7fb;
-        }
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        nav {
-            background-color: #004d7a;
-            padding: 15px;
-        }
+  <title>{% block title %}MEGA — Завод игрушек{% endblock %}</title>
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 0;
-            padding: 0;
-        }
+  <meta name="description" content="Завод игрушек MEGA — производство безопасных и сертифицированных игрушек.">
+  <meta name="keywords" content="игрушки, производство, MEGA, безопасность, ISO 9001">
+  <meta name="author" content="ООО 'MEGA'">
+  <meta name="robots" content="index, follow">
 
-        nav ul li {
-            display: inline;
-        }
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MEGA — Завод игрушек">
+  <meta property="og:description" content="Производство безопасных игрушек. Сертификат ISO 9001.">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:image" content="{{ request.build_absolute_uri }}{% static 'img/og-image.jpg' %}">
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MEGA — Завод игрушек">
 
-        nav ul li a:hover {
-            background-color: #006fa6;
-        }
+  <link rel="icon" href="{% static 'images/logo.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+  <meta name="theme-color" content="#ffffff">
 
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-        h1 {
-            color: #004d7a;
-        }
-    </style>
+  {% block extra_head %}{% endblock extra_head %}
+
+  <script>
+      (function() {
+          const theme = localStorage.getItem('theme');
+          if (theme) {
+              document.documentElement.setAttribute('data-theme', theme);
+          }
+      })();
+  </script>
 </head>
-<body>
+<body itemscope itemtype="https://schema.org/Organization">
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'filling:index' %}">Главная</a></li>
-            <li><a href="{% url 'filling:news' %}">Новости</a></li>
-            <li><a href="{% url 'filling:about' %}">О нас</a></li>
-            <li><a href="{% url 'filling:faq' %}">FAQ</a></li>
-            {% if user|is_admin or user|is_employee %}
-                <li><a href="{% url 'promotions:promocodes' %}">Промокоды</a></li>
-            {% endif %}
-            <li><a href="{% url 'contacts:contacts' %}">Команда</a></li>
-            <li><a href="{% url 'filling:conf_politic' %}">Политика</a></li>
-            <li><a href="{% url 'career:vacancies' %}">Вакансии</a></li>
-            <li><a href="{% url 'reviews:index' %}">Отзывы</a></li>
-            <li><a href="{% url 'filling:random_cat_fact' %}">Кошко-факт</a></li>
-            <li><a href="{% url 'filling:random_dog_image' %}">Собака</a></li>
-            <li><a href="{% url 'users:profile' %}">Профиль</a></li>
-            <li><a href="{% url 'production:catalog' %}">Каталог</a></li>
-        </ul>
-    </nav>
+    <meta itemprop="url" content="{{ request.build_absolute_uri }}">
+    <link itemprop="logo" href="{{ request.build_absolute_uri }}{% static 'img/logo.png' %}">
 
-    <div class="container">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="{% url 'filling:index' %}" class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="Логотип">
+            </a>
+
+            <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+
+            <nav class="menu" id="menu">
+                <ul>
+                    <li><a href="{% url 'filling:index' %}">Главная</a></li>
+                    <li><a href="{% url 'filling:news' %}">Новости</a></li>
+                    <li><a href="{% url 'filling:about' %}">О нас</a></li>
+                    <li><a href="{% url 'filling:faq' %}">FAQ</a></li>
+                    {% if user|is_admin or user|is_employee %}
+                        <li><a href="{% url 'promotions:promocodes' %}">Промокоды</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'contacts:contacts' %}">Команда</a></li>
+                    <li><a href="{% url 'filling:conf_politic' %}">Политика</a></li>
+                    <li><a href="{% url 'career:vacancies' %}">Вакансии</a></li>
+                    <li><a href="{% url 'reviews:index' %}">Отзывы</a></li>
+                    <li><a href="{% url 'filling:random_cat_fact' %}">Кошко-факт</a></li>
+                    <li><a href="{% url 'filling:random_dog_image' %}">Собака</a></li>
+                    <li><a href="{% url 'users:profile' %}">Профиль</a></li>
+                    <li><a href="{% url 'production:catalog' %}">Каталог</a></li>
+                    <li><a href="{% url 'filling:all_examples' %}">Примеры</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container content">
         {% block content %}
-        <!-- Контент страницы -->
         {% endblock %}
+    </main>
+
+    <div class="theme-switch-wrapper">
+        <span id="theme-label">Тёмная тема</span>
+        <label class="theme-switch" for="globalThemeCheckbox">
+            <input type="checkbox" id="globalThemeCheckbox" />
+            <div class="slider-round"></div>
+        </label>
     </div>
 
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h4>О компании</h4>
+                <p>Производство сертифицированных игрушек с заботой о детях.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Быстрые ссылки</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'filling:about' %}">О нас</a></li>
+                    <li><a href="{% url 'production:catalog' %}">Каталог</a></li>
+                    <li><a href="{% url 'career:vacancies' %}">Вакансии</a></li>
+                    <li><a href="{% url 'filling:conf_politic' %}">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Мы в соцсетях</h4>
+                <div class="social-links">
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="VK">
+                        <img src="{% static 'images/social/vk.svg' %}" alt="VK">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                        <img src="{% static 'images/social/telegram.svg' %}" alt="Telegram">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <img src="{% static 'images/social/youtube.svg' %}" alt="YouTube">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                &copy; {% now "Y" %} MEGA. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const toggleSwitch = document.getElementById('globalThemeCheckbox');
+            const currentTheme = localStorage.getItem('theme');
+
+
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+
+
+            toggleSwitch.addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+
+            const burger = document.getElementById('burger');
+            const menu = document.getElementById('menu');
+
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    menu.classList.toggle('active');
+                    const isExpanded = burger.getAttribute('aria-expanded') === 'true';
+                    burger.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

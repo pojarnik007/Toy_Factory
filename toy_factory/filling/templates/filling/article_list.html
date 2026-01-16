@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+
+<h1 class="articles-title">Новости и статьи</h1>
+
+<div class="articles-container">
     {% for article in article_list %}
-        <h3><a href="{{ article.get_absolute_url }}">{{article.title}}</a></h3>
-        <p>{{article.description | truncatewords:5}}</p>
-        <hr/>
+    <div class="article-card">
+        {% if article.image %}
+        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+        {% endif %}
+        <div class="article-content">
+            <h3 class="article-title">
+                <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            </h3>
+
+            <p class="article-description">{{ article.description }}</p>
+
+            <a href="{{ article.get_absolute_url }}" class="btn read-more">Читать далее →</a>
+        </div>
+    </div>
     {% endfor %}
+</div>
 {% endblock %}

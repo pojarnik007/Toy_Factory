@@ -1,14 +1,16 @@
+from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator  # <--- ДОБАВЛЕН ИМПОРТ
+
 from .forms import ToyForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db.models import Q
-from .models import Toy, ToyType, Order, Client, PickupPoint, Manufacturer
+from .models import Toy, ToyType, Order, Client, PickupPoint, Cart, CartItem
 from users.models import Position
 from users.decorators import role_required
 from promotions.models import PromoCode
 from django.utils import timezone
-
 
 
 def catalog(request):
@@ -35,14 +37,31 @@ def catalog(request):
     if selected_types:
         queryset = queryset.filter(toy_type__id__in=selected_types).distinct()
 
+    # === ЛОГИКА ПАГИНАЦИИ ===
+    # Получаем количество элементов на странице из GET-запроса, по умолчанию 3
+    per_page = request.GET.get('per_page', 3)
+    try:
+        per_page = int(per_page)
+        if per_page < 1:
+            per_page = 3
+    except ValueError:
+        per_page = 3
+
+    paginator = Paginator(queryset, per_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    # ========================
+
     all_types = ToyType.objects.all()
 
     return render(request, 'production/catalog.html', {
-        'toys': queryset,
+        'toys': page_obj,      # Передаем страницу, чтобы цикл for работал по ней
+        'page_obj': page_obj,  # Передаем объект страницы для навигации (номера страниц)
         'all_types': all_types,
         'selected_types': selected_types,
         'search_query': search_query,
     })
+
 
 def toy_detail_view(request, pk):
     toy = get_object_or_404(Toy, pk=pk)
@@ -123,10 +142,12 @@ def buy(request, pk):
         'pickup_points': pickup_points,
     })
 
+
 @login_required
 def order_confirm(request, order_id):
     order = get_object_or_404(Order, id=order_id, client__user=request.user)
     return render(request, 'production/order_confirmed.html', {'order': order})
+
 
 @role_required([Position.ADMIN])
 def create(request):
@@ -172,12 +193,12 @@ def delete(request, pk):
     toy.delete()
     return redirect('production:catalog')
 
-from django.shortcuts import redirect
 
 @role_required([Position.ADMIN, Position.EMPLOYEE])
 def order_list(request):
     orders = Order.objects.all().order_by('-order_date')
     return render(request, 'production/order_list.html', {'orders': orders})
+
 
 @role_required([Position.ADMIN, Position.EMPLOYEE])
 def order_confirm_admin(request, order_id):
@@ -191,3 +212,62 @@ def order_confirm_admin(request, order_id):
         return redirect('production:orders')
     return render(request, 'production/admin_order_confirm.html', {'order': order})
 
+
+@require_POST
+@login_required
+def add_to_cart(request, toy_id):
+    toy = get_object_or_404(Toy, id=toy_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    item, created = CartItem.objects.get_or_create(cart=cart, toy=toy)
+    if not created:
+        item.quantity += 1
+        item.save()
+    return redirect("production:cart_view")
+
+
+@require_POST
+@login_required
+def update_cart_item(request, item_id, action):
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    if action == "increase":
+        item.quantity += 1
+    elif action == "decrease" and item.quantity > 1:
+        item.quantity -= 1
+    elif action == "remove":
+        item.delete()
+        return redirect("production:cart_view")
+    item.save()
+    return redirect("production:cart_view")
+
+
+@login_required
+def cart_view(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.select_related("toy").all()
+    total = sum(item.total_price for item in items)
+    return render(request, "production/cart.html", {
+        "cart": cart,
+        "items": items,
+        "total": total
+    })
+
+
+@login_required
+def checkout(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    items = cart.items.select_related("toy").all()
+
+    if not items:
+        messages.error(request, "Корзина пуста")
+        return redirect("production:cart_view")
+
+    total = sum(item.total_price for item in items)
+
+    if request.method == "POST":
+        # Тут можно интегрировать платёжку или просто оформить заказ
+        messages.success(request, f"Оплата прошла успешно! Итоговая сумма: {total:.2f} ₽")
+        # Очистка корзины после оплаты
+        cart.items.all().delete()
+        return redirect("production:catalog")
+
+    return render(request, "production/checkout.html", {"cart": cart, "items": items, "total": total})

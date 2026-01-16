@@ -1,90 +1,86 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load tz %}
 {% load user_tags %}
 
 {% block content %}
-    <div>
-        {% if user.is_authenticated %}
-            <div>
-                {% if user|is_admin %}
-                    <a href="{% url 'statistic:statistic' %}">Смотреть статистику</a>
-                {% endif %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
-                {% if user|is_employee or user|is_admin %}
-                    <a href="{% url 'production:orders' %}">Смотреть историю заказов</a>
-                {% endif %}
+<main class="profile-page">
+  {% if user.is_authenticated %}
+    <div class="profile-container">
+      <!-- Левая колонка: Информация пользователя -->
+      <div class="profile-card">
+        <h2>{{ user.username }}</h2>
+        <p><strong>Имя:</strong> {{ user.first_name|default:"не указано" }}</p>
+        <p><strong>Фамилия:</strong> {{ user.last_name|default:"не указана" }}</p>
+        <p><strong>Email:</strong> {{ user.email|default:"не указан" }}</p>
+        <p><strong>Телефон:</strong> {{ user.phone|default:"не указан" }}</p>
+        <p><strong>Город:</strong> {{ user.city|default:"не указан" }}</p>
+        <p><strong>Возраст:</strong> {{ user.age }} лет</p>
+        <p><strong>Часовой пояс:</strong> {{ user.timezone }}</p>
+        <a href="{% url 'users:edit_profile' %}" class="btn primary">Редактировать</a>
+      </div>
 
-                <div>
-                    <h5>{{ user.username }}</h5>
-                    <p>
-                        Имя: {{ user.first_name|default:"не указано" }}<br>
-                        Фамилия: {{ user.last_name|default:"не указана" }}<br>
-                        Email: {{ user.email|default:"не указан" }}<br>
-                        Телефон: {{ user.phone|default:"не указан" }}<br>
-                        Город: {{ user.city|default:"не указан" }}<br>
-                        Возраст: {{ user.age }} лет<br>
-                        Часовой пояс: {{ user.timezone }}
-                    </p>
-                    <a href="{% url 'users:edit_profile' %}">Редактировать</a>
-                </div>
+      <!-- Правая колонка: Динамика -->
+      <div class="profile-dashboard">
+        <div class="time-card">
+          <h3>Текущее время</h3>
+          {% timezone user.timezone %}
+            <p class="current-time">{% now "d/m/Y H:i" %}</p>
+          {% endtimezone %}
+        </div>
 
-                <div>
-                    <h5>Текущее время:</h5>
-                    {% timezone user.timezone %}
-                        Сейчас: {% now "d/m/Y H:i" %}
-                    {% endtimezone %}
-                </div>
+        <div class="calendar-card">
+          <h3>Календарь</h3>
+          <div class="calendar-box">{{ calendar|safe }}</div>
+        </div>
 
-                <!-- Календарь -->
-                <div>
-                    <h5>Календарь</h5>
-                    {{ calendar|safe }}
-                </div>
+        {% if user|is_client %}
+        <div class="reviews-card">
+          <h3>Отзывы</h3>
+          {% if reviews %}
+            <ul>
+              {% for review in reviews %}
+                <li>
+                  <strong>{{ review.title }}</strong> —
+                  <span title="Локальное время">{{ review.time|localtime|date:"d/m/Y H:i" }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>Нет отзывов</p>
+          {% endif %}
+        </div>
 
-                {% if user|is_client %}
-                    <div>
-                        <h5>Отзывы</h5>
-                        {% if not reviews %}
-                            нет
-                        {% endif %}
-                        <ul>
-                            {% for review in reviews %}
-                                <li>
-                                    {{ review.title }} -
-                                    <span title="Локальное время">
-                                {{ review.time|localtime|date:"d/m/Y H:i" }}
-                            </span>
-                                    <span>
-                                ({{ review.time|date:"d/m/Y H:i" }} UTC)
-                            </span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        <h5>Покупки</h5>
-                        {% if orders %}
-                            <ul>
-                                {% for order in orders %}
-                                    <li>
-                                        {{ order.order_date|date:"d/m/Y H:i" }} — {{ order.toy.name }}
-                                        ({{ order.quantity }} шт.) — {{ order.status }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>Заказов нет</p>
-                        {% endif %}
-                    </div>
-                {% endif %}
-                <form action="{% url 'users:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Выйти</button>
-                </form>
-
-            </div>
-        {% else %}
-            <p>Чтобы посмотреть профиль <a href="{% url 'users:login' %}">войдите</a> или
-                <a href="{% url 'users:register' %}">зарегистрируйтесь</a></p>
+        <div class="orders-card">
+          <h3>Покупки</h3>
+          {% if orders %}
+            <ul>
+              {% for order in orders %}
+                <li>
+                  {{ order.order_date|date:"d/m/Y H:i" }} — {{ order.toy.name }}
+                  ({{ order.quantity }} шт.) — {{ order.status }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>Заказов нет</p>
+          {% endif %}
+        </div>
         {% endif %}
+      </div>
+
     </div>
+
+    <form action="{% url 'users:logout' %}" method="post" class="logout-form">
+      {% csrf_token %}
+      <button type="submit" class="btn secondary">Выйти</button>
+    </form>
+
+  {% else %}
+    <p>Чтобы посмотреть профиль <a href="{% url 'users:login' %}">войдите</a> или
+       <a href="{% url 'users:register' %}">зарегистрируйтесь</a></p>
+  {% endif %}
+</main>
 {% endblock %}

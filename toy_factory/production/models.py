@@ -96,3 +96,25 @@ class SaleAnalytics(models.Model):
     def __str__(self):
         return f"Аналитика {self.date}"
 
+from django.db import models
+from django.conf import settings
+
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Корзина {self.user}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    toy = models.ForeignKey("Toy", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.toy.name} × {self.quantity}"
+
+    @property
+    def total_price(self):
+        return self.toy.price * self.quantity

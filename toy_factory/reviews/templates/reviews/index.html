@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div>
+<link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+
+<main class="reviews-page">
+  <header class="reviews-header">
     <h1>Отзывы</h1>
-    <a href="{% url 'reviews:create' %}">Новый отзыв</a>
-    
+    <a href="{% url 'reviews:create' %}" class="btn primary add-review">+ Новый отзыв</a>
+  </header>
+
+  <section class="reviews-list">
     {% for review in reviews %}
-    <div>
-        <h5>{{ review.title }}</h5>
-        <p>{{ review.text }}</p>
-        <div>
-            <div>
-                Рейтинг: {{ review.rating }}/10 
-                <small>от {{ review.user.username }}</small>
-            </div>
-            {% if review.user == request.user %}
-                <div>
-                    <a href="{% url 'reviews:edit' review.id %}">Изменить</a>
-                    <a href="{% url 'reviews:delete' review.id %}">Удалить</a>
-                </div>
-            {% endif %}
+      <div class="review-card">
+        <div class="review-header">
+          <h3 class="review-title">{{ review.title }}</h3>
+          <div class="review-rating">Рейтинг: {{ review.rating }}/10</div>
         </div>
-    </div>
+        <p class="review-text">{{ review.text }}</p>
+        <div class="review-footer">
+          <span class="review-author">от {{ review.user.username }}</span>
+          {% if review.user == request.user %}
+            <div class="review-actions">
+              <a href="{% url 'reviews:edit' review.id %}" class="btn secondary btn-sm">Изменить</a>
+              <a href="{% url 'reviews:delete' review.id %}" class="btn danger btn-sm">Удалить</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
     {% endfor %}
-</div>
+  </section>
+</main>
 {% endblock %}

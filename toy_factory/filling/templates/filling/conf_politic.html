@@ -1,6 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content%}
-Мы не лезем в политику
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/politic.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="instruction-overlay">
+        <h1>🎄 Фабрика Игрушек MEGA 🎄</h1>
+        <p>Прокручивайте страницу вниз, чтобы запустить конвейер!</p>
+        <div class="scroll-indicator">⬇</div>
+    </div>
+
+    <div class="factory-scene">
+
+        <div class="factory-wall">
+            <div class="window"></div>
+            <div class="window"></div>
+            <div class="window"></div>
+        </div>
+
+        <div class="conveyor-track">
+            <div class="belt" id="belt"></div>
+            <div class="rollers">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <div class="toys-container">
+
+            <div class="toy-item" data-speed="2.5" data-offset="-100">
+                <div class="ornament red">🐻</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-400">
+                <div class="ornament gold">🚗</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-700">
+                <div class="ornament blue">🤖</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-1000">
+                <div class="ornament green">🎁</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-1300">
+                <div class="ornament purple">⛄</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-1600">
+                <div class="ornament red">🐻</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-1900">
+                <div class="ornament gold">🚗</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-2200">
+                <div class="ornament blue">🤖</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-2500">
+                <div class="ornament green">🎁</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-2800">
+                <div class="ornament purple">⛄</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-3100">
+                <div class="ornament red">🐻</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-3400">
+                <div class="ornament gold">🚗</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-3700">
+                <div class="ornament blue">🤖</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-4000">
+                <div class="ornament green">🎁</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-4300">
+                <div class="ornament purple">⛄</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-4600">
+                <div class="ornament red">🐻</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-4900">
+                <div class="ornament gold">🚗</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-5200">
+                <div class="ornament blue">🤖</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-5500">
+                <div class="ornament green">🎁</div>
+            </div>
+
+            <div class="toy-item" data-speed="2.5" data-offset="-5800">
+                <div class="ornament purple">⛄</div>
+            </div>
+        </div>
+
+        <div class="packing-machine">
+            <div class="machine-top">MEGA-PACK 3000</div>
+            <div class="machine-chute"></div>
+            <div class="box-pile">📦</div>
+        </div>
+        <div class="packing"></div>
+
+    </div>
+
+    <div class="scroll-spacer"></div>
+
+    <script src="{% static 'JS/scroll_animation.js' %}"></script>
 {% endblock %}

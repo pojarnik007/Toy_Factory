@@ -1,46 +1,51 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2>Регистрация</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {{ form.username.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {{ form.email.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.phone.label_tag }}
-                {{ form.phone }}
-                {{ form.phone.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.city.label_tag }}
-                {{ form.city }}
-                {{ form.city.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.date_of_birth.label_tag }}
-                {{ form.date_of_birth }}
-                {{ form.date_of_birth.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.password1.label_tag }}
-                {{ form.password1 }}
-                {{ form.password1.errors }}
-            </div>
-            <div class="form-group">
-                {{ form.password2.label_tag }}
-                {{ form.password2 }}
-                {{ form.password2.errors }}
-            </div>
-            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-        </form>
-    </div>
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<main class="register-page">
+  <section class="register-container">
+    <h2 class="register-title">Регистрация</h2>
+    <form method="post" class="register-form">
+      {% csrf_token %}
+
+      <div class="form-group">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+      <div class="form-group">
+        {{ form.date_of_birth.label_tag }}
+        {{ form.date_of_birth }}
+        {{ form.date_of_birth.errors }}
+
+        <p id="dob-message" class="dob-message"></p>
+      </div>
+
+      <div id="parent-consent-block" class="form-group checkbox-group hidden">
+          <input type="checkbox" id="parent-consent-checkbox">
+          <label for="parent-consent-checkbox" style="display:inline; color: #d35400;">
+              Я подтверждаю согласие родителей/опекунов
+          </label>
+      </div>
+
+      <div class="form-group">
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}
+      </div>
+      <div class="form-group">
+          {{ form.password2.label_tag }}
+          {{ form.password2 }}
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn-submit">Зарегистрироваться</button>
+
+      <p class="login-link">
+        Уже есть аккаунт? <a href="{% url 'users:login' %}">Войти</a>
+      </p>
+    </form>
+  </section>
+</main>
+
+<script src="{% static 'JS/register.js' %}"></script>
 {% endblock %}

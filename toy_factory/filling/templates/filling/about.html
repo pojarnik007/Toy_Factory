@@ -1,5 +1,96 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-{% block content%}
-<p>{{info.description}}</p>
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+
+<main class="about-page">
+  <header class="about-header">
+    <h1>О компании</h1>
+    <p class="subtitle">Краткая информация о нашей миссии и истории</p>
+  </header>
+
+  <article class="about-article">
+
+    <section class="section description">
+      <h2>Описание</h2>
+      <p>{{ info.description }}</p>
+    </section>
+
+    <section class="section history">
+      <h2>История</h2>
+      <div class="timeline">
+        {% for h in history %}
+        <div class="timeline-item">
+          <div class="year">{{ h.year }}</div>
+          <div class="event">{{ h.event }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section media">
+      <h2>Видео-презентация</h2>
+      <video controls class="responsive-video">
+        <source src="{% static 'prev.mp4' %}" type="video/mp4">
+      </video>
+    </section>
+
+    <section class="section partners">
+      <h2>Партнёры</h2>
+      <div class="partners-grid">
+        {% for p in partners %}
+        <a href="{{ p.website }}" target="_blank" class="partner-card">
+          <img src="{{ p.logo.url }}" alt="{{ p.name }}">
+          <span>{{ p.name }}</span>
+        </a>
+        {% empty %}
+          <p>Список наших партнёров скоро будет опубликован.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+
+
+    <section class="section requisites">
+      <h2>Реквизиты</h2>
+      <table class="requisites-table">
+        <thead>
+          <tr>
+            <th>ИНН</th>
+            <th>КПП</th>
+            <th>БИК</th>
+            <th>Расчётный счёт</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1234567890</td>
+            <td>987654321</td>
+            <td>044525225</td>
+            <td>40702810900000000000</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-certificate">
+        <img id="frame" src="../../../media/frame.png">
+        <h2>Сертификат</h2>
+        <div class="certificate-card">
+        <h3>Сертификат соответствия</h3>
+        <p><strong>Организация:</strong> ООО "MEGA"</p>
+        <p><strong>Отрасль:</strong> Производство игрушек</p>
+        <p><strong>Сертификат:</strong> ISO 9001:2015</p>
+        <p><strong>Номер:</strong> RU.MEGA.2025.001</p>
+        <p><strong>Дата выдачи:</strong> 15 сентября 2025 г.</p>
+        <p><strong>Действителен до:</strong> 15 сентября 2028 г.</p>
+        <p><strong>Выдан:</strong> Национальным центром сертификации</p>
+        <figcaption>Сертификат подтверждает, что завод игрушек компании MEGA соответствует международным стандартам качества и безопасности продукции.</figcaption>
+      </div>
+    </section>
+
+
+  </article>
+</main>
 {% endblock %}

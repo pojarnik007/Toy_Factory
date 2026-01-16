@@ -1,18 +1,4 @@
-from django.shortcuts import redirect, render
 from django.http.response import HttpResponse, HttpResponseNotFound
-from django.contrib.auth.decorators import login_required
-from .models import FAQ, Article, CompanyInformation
-import requests
-
-def index(request):
-    article = Article.objects.all().first()
-    return render(request, 'filling/article.html', context={'article': article})
-
-
-def about(request):
-    info = CompanyInformation.objects.all().first()
-    return render(request, 'filling/about.html', context={'info': info})
-
 
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
@@ -78,3 +64,53 @@ def random_dog_image(request):
 
 def page_not_found(request, exception):
     return render(request, 'page_not_found.html')
+
+
+# filling/views.py
+
+from django.shortcuts import render
+from .models import CompanyInformation, CompanyHistory, Partner, Article, FAQ
+
+def about(request):
+    company_info = CompanyInformation.objects.first()
+    history_events = CompanyHistory.objects.all()
+
+    # === ДОБАВЛЯЕМ ЭТУ СТРОКУ ===
+    partners_list = Partner.objects.all()
+
+    context = {
+        'info': company_info,
+        'history': history_events,
+        'partners': partners_list,  # <-- И передаем в контекст
+    }
+    return render(request, 'filling/about.html', context)
+
+
+# ... остальной код views.py ...
+
+# --- Остальные представления остаются без изменений ---
+
+# filling/views.py
+from .models import Article, PromoSlide, SliderSettings  # Не забудьте импортировать новые модели
+
+
+def index(request):
+    latest_articles = Article.objects.all()[:3]
+    slides = PromoSlide.objects.all()
+
+    settings, created = SliderSettings.objects.get_or_create(
+        id=1,  # синглтон
+        defaults={'delay': 5000, 'is_auto': True, 'is_loop': True}
+    )
+
+    context = {
+        'latest_articles': latest_articles,
+        'slides': slides,
+        'slider_settings': settings,
+    }
+    return render(request, 'filling/index.html', context)
+# ... и так далее
+
+def all_examples(request):
+    return render(request, 'filling/all_types.html')
+
