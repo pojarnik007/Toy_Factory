@@ -1,0 +1,287 @@
+/* --- Заголовок --- */
+.page-title {
+    color: #004d7a;
+    margin-bottom: 20px;
+}
+
+/* --- Кнопки --- */
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: #0077b6;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #0096c7;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #ccc;
+}
+
+.btn-warning {
+    background: #f0ad4e;
+    color: white;
+}
+
+.btn-danger {
+    background: #d9534f;
+    color: white;
+}
+
+.add-btn {
+    margin-bottom: 20px;
+}
+
+/* --- Фильтры --- */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 25px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-input,
+.select-input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* --- Сетка товаров --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.product-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #004d7a;
+}
+
+.product-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.product-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-desc {
+    font-size: 14px;
+    color: #444;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.product-actions {
+    margin-top: auto;
+}
+
+.price {
+    font-weight: bold;
+    color: #0077b6;
+}
+
+.out-of-stock {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* --- Админские кнопки --- */
+.admin-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* --- ПАГИНАЦИЯ --- */
+.pagination-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    height: 35px;
+    padding: 0 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* Цвета с поддержкой темы */
+    background-color: var(--card-bg, #fff); /* Фоллбэк на белый */
+    color: var(--text-color, #333);
+    border: 1px solid #ccc;
+}
+
+.page-link:hover:not(.disabled):not(.active) {
+    background-color: var(--primary-medium-blue, #0077b6);
+    color: white;
+    border-color: var(--primary-medium-blue, #0077b6);
+}
+
+.page-link.active {
+    background-color: var(--primary-dark-blue, #004d7a);
+    color: white;
+    border-color: var(--primary-dark-blue, #004d7a);
+    pointer-events: none;
+}
+
+.page-link.disabled {
+    opacity: 0.5;
+    cursor: default;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.page-info {
+    font-size: 0.9em;
+    color: var(--text-muted, #777);
+}
+
+/* Адаптация существующих элементов под темную тему */
+[data-theme="dark"] .filters,
+[data-theme="dark"] .product-card {
+    background-color: var(--card-bg);
+    box-shadow: none;
+    border: 1px solid #444;
+}
+
+[data-theme="dark"] .page-title,
+[data-theme="dark"] .product-title {
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .product-info,
+[data-theme="dark"] .product-desc {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .page-link.disabled {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* --- 3D ЭФФЕКТ ДЛЯ КАРТОЧЕК --- */
+
+.product-card {
+    /* Обязательно для 3D */
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+
+    /* Убираем старый hover (transform translateY), чтобы не конфликтовал */
+    /* transition уже управляется через JS */
+    will-change: transform;
+}
+
+/* Старый hover эффект в CSS лучше отключить или адаптировать */
+.product-card:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+    /* transform: translateY(-3px); <--- ЭТО УБРАТЬ ИЛИ ЗАКОММЕНТИРОВАТЬ */
+}
+
+/* Эффект объема для внутренних элементов */
+.product-card img,
+.product-card .product-title,
+.product-card .price,
+.product-card .btn {
+    /* Плавность движения внутренних элементов */
+    transition: transform 0.5s ease;
+    transform: translateZ(0px);
+}
+
+/* При наведении элементы "всплывают" вперед */
+.product-card:hover img {
+    transform: translateZ(30px); /* Картинка выпирает сильнее всего */
+}
+
+.product-card:hover .product-title {
+    transform: translateZ(20px);
+}
+
+.product-card:hover .product-info {
+    transform: translateZ(10px);
+}
+
+.product-card:hover .product-actions {
+    transform: translateZ(25px); /* Кнопки тоже выпирают */
+}
+
+/* Фикс для темной темы, чтобы тени смотрелись красиво */
+[data-theme="dark"] .product-card:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5) !important;
+}

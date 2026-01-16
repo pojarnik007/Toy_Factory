@@ -1,0 +1,156 @@
+.register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  padding: 20px;
+}
+
+.register-container {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  width: 100%;
+  max-width: 450px;
+  animation: fadeIn 0.6s ease;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.register-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.register-form label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+.register-form input {
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s, box-shadow 0.3s;
+  font-size: 1rem;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #f57c00;
+  box-shadow: 0 0 6px rgba(245,124,0,0.4);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background: #f57c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover {
+  background: #d85b00;
+  transform: translateY(-2px);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.login-link a {
+  color: #f57c00;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Анимация */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* ... ваш существующий CSS ... */
+
+/* Стили для сообщения о дне недели */
+.dob-message {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    min-height: 20px; /* Чтобы не прыгало при появлении */
+    transition: color 0.3s ease;
+}
+
+.dob-message.success {
+    color: #27ae60; /* Зеленый цвет для дня недели */
+}
+
+.dob-message.warning {
+    color: #d35400; /* Оранжевый, если вдруг понадобится */
+}
+
+/* ... старые стили ... */
+
+/* Утилита для скрытия элементов */
+.hidden {
+    display: none !important;
+}
+
+/* Красная подсветка поля при ошибке */
+.input-error {
+    border-color: red !important;
+    background-color: #fff0f0;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* Стили для текста сообщения */
+.dob-message {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    min-height: 20px;
+    transition: color 0.3s ease;
+}
+
+/* Зеленый текст (успех) */
+.dob-message.success {
+    color: #27ae60;
+}
+
+/* Красный текст (ошибка/предупреждение) */
+.dob-message.error {
+    color: #c0392b;
+}
+
+/* Чекбокс группа */
+.checkbox-group {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+    background: #fff5e6;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed #d35400;
+}
+.checkbox-group input {
+    width: auto !important; /* Чтобы чекбокс не растягивался на всю ширину */
+}

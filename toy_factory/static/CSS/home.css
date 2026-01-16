@@ -1,0 +1,362 @@
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #333;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.figure-preloader-container {
+    width: 120px;
+    height: 100px;
+    margin: 10px auto;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotatePreloaderFigure 3s infinite alternate ease-in-out;
+}
+
+.preloader-part {
+    position: absolute;
+    width: 10px;
+    height: 80px;
+    top: 10px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.preloader-part::before,
+.preloader-part::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 10px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.preloader-part::before { top: 0; }
+.preloader-part::after { bottom: 0; }
+
+.preloader-part.left { left: 10px; }
+.preloader-part.left::before,
+.preloader-part.left::after { left: 0; }
+
+.preloader-part.right { right: 10px; }
+.preloader-part.right::before,
+.preloader-part.right::after { right: 0; }
+
+@keyframes rotatePreloaderFigure {
+    0% { transform: rotateY(0deg) rotateX(0deg) scale(1); animation-timing-function: ease-in-out; }
+    25% { transform: rotateY(90deg) rotateX(10deg) scale(1.05); animation-timing-function: ease-out; }
+    50% { transform: rotateY(180deg) rotateX(0deg) scale(1); }
+    75% { transform: rotateY(270deg) rotateX(-10deg) scale(1.05); animation-timing-function: ease-in; }
+    100% { transform: rotateY(360deg) rotateX(0deg) scale(1); }
+}
+
+body.loaded .preloader-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+
+main.home-page {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.loaded main.home-page {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.banner-slider {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+.slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease-in-out;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+.slider-controls button {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  pointer-events: all;
+  transition: background-color 0.3s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-controls button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+@keyframes fadeInStay {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#animation-demo {
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 50px;
+}
+
+.animation-container {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    animation: fadeOutBear 0.5s linear forwards;
+    animation-delay: 7.5s;
+}
+
+.teddy-bear {
+    width: 120px;
+    height: 150px;
+    background: #8d6e63;
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    position: absolute;
+    bottom: 0;
+}
+.teddy-head-main {
+    width: 80px;
+    height: 70px;
+    background: #8d6e63;
+    border-radius: 50%;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.teddy-ear {
+    width: 30px;
+    height: 30px;
+    background: #795548;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    z-index: 1;
+}
+.teddy-ear.left { left: 5px; }
+.teddy-ear.right { right: 5px; }
+
+.teddy-eye {
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 25px;
+    animation: teddyEyesAndSmile 8s forwards;
+}
+.teddy-eye.left { left: 15px; }
+.teddy-eye.right { right: 15px; }
+
+.teddy-nose-main {
+    width: 20px;
+    height: 12px;
+    background: #4e342e;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.teddy-arm {
+    width: 40px;
+    height: 80px;
+    background: #8d6e63;
+    border-radius: 40px;
+    position: absolute;
+    bottom: 30px;
+    transform-origin: top center;
+    z-index: 20;
+}
+.teddy-arm.left {
+    left: -20px;
+    transform: rotate(30deg);
+    animation: teddyArmLeft 8s forwards;
+}
+.teddy-arm.right {
+    right: -20px;
+    transform: rotate(-30deg);
+    animation: teddyArmRight 8s forwards;
+}
+
+.balloons-container {
+    position: absolute;
+    margin-top: 100px;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 150px;
+    z-index: 11;
+    animation: balloonsFlyEffect 8s forwards;
+}
+
+.balloon {
+    width: 30px;
+    height: 40px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    top: 0;
+    animation: none;
+}
+.balloon::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 30px;
+    background: #555;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.balloon:nth-child(1) { background: #e8491d; left: 0; }
+.balloon:nth-child(2) { background: #ffc107; left: 35px; }
+.balloon:nth-child(3) { background: #3a506b; left: 70px; }
+
+@keyframes teddyArmLeft {
+    0% { transform: rotate(30deg); }
+    20% { transform: rotate(30deg); }
+    25% { transform: rotate(10deg); }
+    30% { transform: rotate(-60deg); }
+    60% { transform: rotate(-60deg); }
+    70% { transform: rotate(50deg); }
+    80% { transform: rotate(-60deg); }
+    100% { transform: rotate(50deg); }
+}
+
+@keyframes teddyArmRight {
+    0% { transform: rotate(-30deg); }
+    20% { transform: rotate(-30deg); }
+    25% { transform: rotate(-10deg); }
+    30% { transform: rotate(60deg); }
+    60% { transform: rotate(60deg); }
+    70% { transform: rotate(-50deg); }
+    80% { transform: rotate(60deg); }
+    100% { transform: rotate(-50deg); }
+}
+
+@keyframes teddyEyesAndSmile {
+    0%, 70% { height: 8px; transform: scaleY(1); }
+    75%, 85% { height: 2px; transform: scaleY(0.1) translateY(3px); }
+    90%, 100% { height: 2px; transform: scaleY(0.1) translateY(3px); }
+}
+
+@keyframes balloonsFlyEffect {
+    0% { top: 0px; opacity: 1; transform: translateX(-50%) scale(1); }
+    60% { top: 0px; opacity: 1; transform: translateX(-50%) scale(1); }
+    80% { top: -150px; opacity: 1; transform: translateX(-50%) scale(1.05); }
+    100% { top: -500px; opacity: 0; transform: translateX(-50%) scale(0.5); }
+}
+
+.company-name-reveal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Lobster', cursive;
+    font-size: 5em;
+    color: #3a506b;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+    z-index: 100;
+    animation: fadeInCompany 1s linear forwards;
+    animation-delay: 8s;
+}
+
+@keyframes fadeOutBear {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes fadeInCompany {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+#animation-demo .animation-container,
+#animation-demo .teddy-eye,
+#animation-demo .teddy-arm,
+#animation-demo .balloons-container,
+#animation-demo .company-name-reveal {
+    animation-play-state: paused;
+}
+
+body.loaded #animation-demo .animation-container,
+body.loaded #animation-demo .teddy-eye,
+body.loaded #animation-demo .teddy-arm,
+body.loaded #animation-demo .balloons-container,
+body.loaded #animation-demo .company-name-reveal {
+    animation-play-state: running;
+}

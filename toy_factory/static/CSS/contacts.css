@@ -1,0 +1,177 @@
+.contacts-title {
+    text-align: center;
+    font-size: 32px;
+    color: #004d7a;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.contacts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-photo {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.contact-info {
+    padding: 15px 20px;
+}
+
+.contact-name {
+    font-size: 20px;
+    color: #004d7a;
+    margin-bottom: 10px;
+}
+
+.contact-description {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.contact-email {
+    display: inline-block;
+    color: #006fa6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+    color: #004d7a;
+}
+
+
+/* Основные стили */
+.container { width: 90%; margin: 0 auto; font-family: sans-serif; }
+.hidden { display: none; }
+
+/* Таблица */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th.sortable { cursor: pointer; background-color: #f2f2f2; }
+th.sortable:hover { background-color: #e0e0e0; }
+.contact-thumb { width: 50px; height: 50px; object-fit: cover; }
+
+/* Валидация */
+.invalid {
+    border: 2px solid red !important;
+    background-color: pink !important;
+}
+.valid {
+    border: 2px solid green !important;
+}
+
+/* Пагинация */
+.pagination { margin-top: 10px; }
+.page-btn { margin: 0 5px; padding: 5px 10px; cursor: pointer; }
+.page-btn.active { font-weight: bold; background-color: #ccc; }
+
+.form-container, .details-box {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    margin: 20px 0; padding: 15px;
+}
+/* Чтобы текст в инпутах был читаем в темной теме */
+input {
+    color: #000; /* Инпуты обычно лучше оставить светлыми или настроить отдельно */
+}
+
+/* === УТИЛИТЫ === */
+.hidden {
+    display: none !important; /* Важно, чтобы перебивать другие стили */
+}
+
+/* === СТИЛИ ПРЕЛОАДЕРА (ИЗ ЛР2) === */
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #333; /* Можно сделать полупрозрачным: rgba(51, 51, 51, 0.9) */
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+/* Когда на body вешаем класс .loaded, прелоадер исчезает */
+body.loaded .preloader-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.figure-preloader-container {
+    width: 120px;
+    height: 100px;
+    margin: 10px auto;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotatePreloaderFigure 3s infinite alternate ease-in-out;
+}
+
+.preloader-part {
+    position: absolute;
+    width: 10px;
+    height: 80px;
+    top: 10px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.preloader-part::before,
+.preloader-part::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 10px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.preloader-part::before { top: 0; }
+.preloader-part::after { bottom: 0; }
+
+.preloader-part.left { left: 10px; }
+.preloader-part.left::before, .preloader-part.left::after { left: 0; }
+.preloader-part.right { right: 10px; }
+.preloader-part.right::before, .preloader-part.right::after { right: 0; }
+
+@keyframes rotatePreloaderFigure {
+    0% { transform: rotateY(0deg) rotateX(0deg) scale(1); animation-timing-function: ease-in-out; }
+    25% { transform: rotateY(90deg) rotateX(10deg) scale(1.05); animation-timing-function: ease-out; }
+    50% { transform: rotateY(180deg) rotateX(0deg) scale(1); }
+    75% { transform: rotateY(270deg) rotateX(-10deg) scale(1.05); animation-timing-function: ease-in; }
+    100% { transform: rotateY(360deg) rotateX(0deg) scale(1); }
+}

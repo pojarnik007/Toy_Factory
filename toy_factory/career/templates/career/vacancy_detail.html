@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/vacancies.css' %}">
+
+<div class="vacancy-detail">
+  <h2 class="vacancy-title">{{ vacancy.title }}</h2>
+
+  <div class="vacancy-description">
+    {{ vacancy.description|linebreaks }}
+  </div>
+
+  <div class="vacancy-actions">
+    <a href="{% url 'career:apply' vacancy.id %}" class="btn primary">Откликнуться</a>
+    <a href="{% url 'career:vacancies' %}" class="btn secondary">← Назад к списку</a>
+  </div>
+</div>
+{% endblock %}

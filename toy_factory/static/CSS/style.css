@@ -1,0 +1,317 @@
+
+:root {
+
+    --primary-dark-blue: #004d7a;
+    --primary-medium-blue: #0077b6;
+
+
+    --text-light: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --text-white: #ffffff;
+    --border-light: rgba(255, 255, 255, 0.1);
+
+    /* светлая по умолчанию */
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --accent-color: #007bff;
+    --card-bg: #f9f9f9;
+    --switch-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --accent-color: #4da3ff;
+    --card-bg: #1e1e1e;
+    --switch-bg: #333333;
+    --primary-dark-blue: #003352;
+}
+
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Прижимаем футер к низу */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+main.content {
+    flex: 1; /* Растягиваем контент, чтобы футер был снизу */
+}
+
+/* === NAVBAR === */
+.navbar {
+    background-color: var(--primary-dark-blue);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Изменено с space-around для лучшего вида */
+    align-items: center;
+    min-height: 60px;
+}
+
+.logo img {
+    height: 45px;
+    vertical-align: middle;
+    transition: transform 0.5s ease;
+}
+.logo:hover img {
+    transform: scale(1.1); /* Убрал бешеное вращение для адекватности */
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.05em;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.menu a:hover,
+.menu a:focus-visible {
+    background-color: var(--primary-medium-blue);
+    color: var(--text-white);
+}
+
+/* === BURGER MENU === */
+.burger {
+    display: none;
+    background: none;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1100;
+}
+
+.burger-line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-white);
+    margin: 5px 0;
+    transition: 0.3s;
+}
+
+@media (max-width: 992px) { /* Увеличил брейкпоинт, чтобы меню не ломалось */
+    .menu {
+        display: none;
+    }
+    .burger {
+        display: block;
+    }
+
+    .menu.active {
+        display: flex;
+        position: absolute;
+        top: 100%; /* Ровно под хедером */
+        left: 0;
+        width: 100%;
+        background: var(--primary-dark-blue);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        padding-bottom: 20px;
+    }
+
+    .menu.active ul {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu.active a {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border-light);
+        width: 100%;
+    }
+}
+
+/* === FOOTER === */
+.footer {
+    background-color: var(--primary-dark-blue);
+    color: var(--text-light);
+    padding: 50px 0 0;
+    margin-top: 50px;
+    border-top: 4px solid var(--primary-medium-blue);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-section h4 {
+    color: var(--text-white);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.footer-section p {
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--text-white);
+    padding-left: 8px;
+    text-decoration: underline;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-right: 15px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.8;
+}
+
+.social-links img {
+    width: 36px;
+    height: 36px;
+    vertical-align: middle;
+}
+
+.social-links a:hover {
+    transform: translateY(-4px) scale(1.1);
+    opacity: 1;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border-light);
+    padding: 25px 0;
+    text-align: center;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .social-links {
+        text-align: center;
+    }
+}
+
+/* === ПЛАВАЮЩИЙ ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (FIXED) === */
+.theme-switch-wrapper {
+    position: fixed;       /* Фиксируем на экране */
+    bottom: 20px;          /* Отступ снизу */
+    right: 20px;           /* Отступ справа */
+    z-index: 2000;         /* Поверх всего (навбар обычно 1000) */
+
+    background-color: var(--switch-bg); /* Цвет подложки */
+    color: var(--text-color);
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Тень чтобы не сливалось */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 44px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider-round {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider-round:before {
+    background-color: white;
+    bottom: 4px;
+    content: "";
+    height: 16px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 16px;
+    border-radius: 50%;
+}
+
+input:checked + .slider-round {
+    background-color: var(--accent-color);
+}
+
+input:checked + .slider-round:before {
+    transform: translateX(20px);
+}
